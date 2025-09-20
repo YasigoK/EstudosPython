@@ -29,4 +29,34 @@ class Perceptron:
             # por fim atualizando o bias 
             self.bias+= erro * taxa_de_aprendizagem
         
-    
+
+#Treinando porta lógica and 
+#entradas
+x = np.array([
+    [0,0],
+    [0,1],
+    [1,0],
+    [1,1]
+])
+#saidas
+y = np.array([
+    0,
+    0,
+    0,
+    1
+])
+
+#criando uma instancia do perceptron 
+meu_perceptron = Perceptron(2) # passando o numero 2 pq temos duas colunas no X
+
+#Criando mais alguns dados que serão usados para o looping de treinamento
+taxa_de_aprendizado = 0.1
+num_epocas = 100
+
+for epoca in range(num_epocas):
+    for entradas, valor_esperado in zip(x,y):
+        meu_perceptron.treinar(entradas,valor_esperado, taxa_de_aprendizado)
+
+print("treinamento finalizeido")
+print("pesos finais : " , meu_perceptron.pesos)
+print("vies finais : ", meu_perceptron.bias)
