@@ -8,11 +8,21 @@ bias = np.random.rand()
 testint = teste.astype(int)
 print(testint + bias)
 
+arrayTeste1 = np.array([12,4,5])
+copiaArray = arrayTeste1
+copiaArray2 = arrayTeste1.copy()
+
+for a,b in enumerate(arrayTeste1):
+    print(arrayTeste1)
+    print(copiaArray)
+    print(copiaArray2)
+    print("\n\n")
+    arrayTeste1*=3
+
 
 
 numeros =[1,14,513,63,47,234]
-repet = 30
-
+repet = 3
 for alele in range(repet):
     print(alele)
 
