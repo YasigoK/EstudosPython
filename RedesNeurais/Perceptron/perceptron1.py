@@ -16,7 +16,7 @@ class Perceptron:
         else:
             return 0
         
-    def treinar(self, entradas, valor_esperado, taentradas_logicasa_de_aprendizagem):
+    def treinar(self, entradas, valor_esperado, taxa_de_aprendizagem):
         #Primeiramente é preciso obter a previsão do perceptron 
         previsao = self.prever(entradas) # vai pegar o valor da entrada e testar com o valor esperado
 
@@ -25,10 +25,10 @@ class Perceptron:
 
         for i, peso in enumerate(self.pesos):
             #um looping que vai percorrer cada elemento da lista que foi criada la no começo
-            self.pesos[i] = self.pesos[i] + (erro * entradas[i] * taentradas_logicasa_de_aprendizagem)
+            self.pesos[i] = self.pesos[i] + (erro * entradas[i] * taxa_de_aprendizagem)
 
         # por fim atualizando o bias 
-        self.bias+= erro * taentradas_logicasa_de_aprendizagem
+        self.bias+= erro * taxa_de_aprendizagem
         return erro
         
 
@@ -72,8 +72,9 @@ if porta_escolhida is None:
     print("Opção inválida. O programa será encerrado.")
     exit()
 
-porta = porta_escolhida['saidas']
 nome_porta = porta_escolhida['nome']
+porta = porta_escolhida['saidas']
+
 
 #criando uma instancia do perceptron 
 meu_perceptron = Perceptron(2) # passando o numero 2 pq temos duas colunas no entradas_logicas
@@ -98,7 +99,7 @@ for epoca in range(num_epocas):
 
         erro_totales +=abs(erro) # vai somar o valor absoluto da var erro, para verificar se o erro total é zero 
 
-        print(f"  Entradas: {entradas} | Esperado: {valor_esperado} | Erro: {erro}")
+        print(f"\n    Entradas: {entradas} | Esperado: {valor_esperado} | Erro: {erro}")
         print(f"    Pesos antes : {np.round(pesos_anteriores, 4)} -> Pesos depois : {np.round(meu_perceptron.pesos, 4)}")
         print(f"    Viés antes  : {round(bias_anteriores, 4)}         -> Viés depois  : {round(meu_perceptron.bias, 4)}")
 
