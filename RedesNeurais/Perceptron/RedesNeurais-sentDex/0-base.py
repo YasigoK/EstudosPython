@@ -4,9 +4,7 @@
 import numpy as np 
 import os 
 os.system('cls')
-np.random.seed(0)
 
-"""
 #Achei melhor usanr np rand pra ficar mais prático e fácil de testar 
 
 #entradas = [1.2,2.3,3.4,4.5]
@@ -41,17 +39,3 @@ saida2=np.dot(saida1,np.array(pesos2).T)+bias2
 
 print(f"\n saida 2 = {saida2}")
 
-"""
-
-X = np.random.uniform(-5,5,size=(3,4))
-#X = 2*np.random.randn(3,4)
-print(f"\n entradas iniciais =\n{X}")
-
-
-class camadas:
-    def __init__(self,n_input,n_neurons):
-        self.pesos = 0.1*np.random.randn(n_input,n_neurons)
-        pass
-    def passar(self):
-        pass
-    

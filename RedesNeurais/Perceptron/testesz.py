@@ -31,3 +31,5 @@ for alele in range(repet):
 for a,b in enumerate(numeros):
     print(f"posicao [{a}] com o valor :{b}")
 
+
+
