@@ -9,7 +9,7 @@ nnfs.init()
 
 # X em maiusculo serve para caracterizar a entrada, uma matriz 2d 
 # y será a saída, vetor 1d 
-X,y = spiral_data(100,3) # gerando 100 unidades para 3 tipos de classes 
+
 
 
 class Camada_Densa: #nome bizarro 
@@ -17,18 +17,35 @@ class Camada_Densa: #nome bizarro
         self.peso = 0.1*np.random.randn (n_input,n_neurons)
         self.bias = np.zeros((1,n_neurons))
 
-    def atualiza(self, entradas):
+    def foward(self, entradas):
         self.output = np.dot(entradas, self.peso) + self.bias
 
 class Ativando_ReLU:# substitui entradas negativas por 0
-    def atualiza2(self,entradas):
+    def foward(self,entradas):
         self.output = np.maximum(0,entradas) # 
 
+class Ativando_Softmax:
+    def foward(self,entradas):
+        valor_exp = np.exp(entradas - np.max(entradas, axis=1, keepdims=True)) # o trecho do np.max serve para o valor maximo de cada entrada, onde o axis1= serve pra indicar todas as colunas e o keepdims server para garantir que o  resultado mantenha  a dimensão original
 
-camada1 = Camada_Densa(2,5)# se torna 2 pq no dataset usa-se 2 tipos de entradas (XY), sendoassim precisa ter o mesmo tamanho para não dar problema com os pesos 
+        probabildades = valor_exp/np.sum(valor_exp, axis=1, keepdims=True) # continuando com a formula padrão do softmax
 
-ativando1 = Ativando_ReLU()# criando uma var que vai ser usada mais tarde com mo propósito de remover numeros negativos 
-camada1.atualiza(X) # realizando processo de treinamento, atualizando o valor de entrada baseando-se nos pesos e bias 
-ativando1.atualiza2(camada1.output) # resumidamente pegou os valores gerados da saida da camada1 e posteriormente transoformou todos aqueles negativos em 0 
-print(ativando1.output)
-    
+        self.output = probabildades
+        
+
+
+X,y = spiral_data(samples = 100,classes = 3) # gerando 100 unidades para 3 tipos de classes 
+
+camada1 = Camada_Densa(2,5)
+ativacao1 = Ativando_ReLU()
+
+camada2 = Camada_Densa(5,3)
+ativacao2 = Ativando_Softmax()
+
+camada1.foward(X)
+ativacao1.foward(camada1.output)
+
+camada2.foward(ativacao1.output)
+ativacao2.foward(camada2.output)
+
+print(ativacao2.output[:8])
