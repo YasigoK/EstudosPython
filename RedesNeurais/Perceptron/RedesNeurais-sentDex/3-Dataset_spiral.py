@@ -5,6 +5,7 @@ from nnfs.datasets import spiral_data # importando uma série de dados que serve
 
 
 os.system('cls')
+os.system('clear')
 nnfs.init()
 
 # X em maiusculo serve para caracterizar a entrada, uma matriz 2d 
@@ -32,7 +33,23 @@ class Ativando_Softmax:
 
         self.output = probabildades
         
+class Loss:
+    def calcula(self,output,y0):
+        sample_loss = self.foward(output,y)
+        data_loss = np.mean(sample_loss)
+        return data_loss
+    
+class Entropia_cruzada(Loss):
+    def foward(self,y_pred,y_true):
+        amostras = len(y_pred)
+        y_pred_reduz = np.clip(y_pred,1e-7,1e-7)#reponsável para não dar valoreos infinitos, pq caso de 0 pode ocorrer um erro de valor infinito 
+        if len(y_true.shape)==1:
+            correcao_de_confidencias = y_pred_reduz[range(amostras),y_true] # aqui é a seleção de itens das amostras,o  range (amostras) vai primeiro pegar todas as amostras disponíveis, e o ,y_true serve apra filtra quais querem pegar, pegando um valor por linhas
+        elif len(y_true.shape) == 2 :
+            correcao_de_confidencias = np.sum(y_pred_reduz * y_true, axis = 10)
 
+        log_Negativo = -np.log(correcao_de_confidencias)
+        return log_Negativo
 
 X,y = spiral_data(samples = 100,classes = 3) # gerando 100 unidades para 3 tipos de classes 
 
@@ -48,4 +65,9 @@ ativacao1.foward(camada1.output)
 camada2.foward(ativacao1.output)
 ativacao2.foward(camada2.output)
 
-print(ativacao2.output[:8])
+print(f"saida : \n{ativacao2.output[:8]}")
+
+funcao_Loss = Entropia_cruzada()
+loss = funcao_Loss.calcula(ativacao2.output,y)
+
+print (f"\nloss : {loss}" )
